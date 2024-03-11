@@ -6,7 +6,6 @@ from utils import clean_up_files, convert_webm_to_mp4
 load_dotenv()
 DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
 
-
 class ConverterBot(discord.Client):
     async def on_ready(self):
         print(f"Logged on as {self.user}")
@@ -23,7 +22,7 @@ class ConverterBot(discord.Client):
 
     async def send_loading_message(self, message: discord.Message) -> discord.Message:
 
-        loading_gif = discord.File("./src/assets/loading.gif")
+        loading_gif = discord.File("./assets/loading.gif")
 
         sent_message = await message.channel.send(
             "Je så at du lasta opp en slik .webm fil, så je driver konverterer den til en .mp4 fil for deg uwu <3",
