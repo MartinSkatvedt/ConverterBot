@@ -5,27 +5,34 @@ from utils import clean_up_files, convert_webm_to_mp4
 
 load_dotenv()
 DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
+LOADING_MESSAGE = os.getenv("LOADING_MESSAGE")
+COMPLETE_MESSAGE = os.getenv("COMPLETE_MESSAGE")
 
 class ConverterBot(discord.Client):
     async def on_ready(self):
         print(f"Logged on as {self.user}")
 
-    async def edit_loading_message_and_send_file(
+    async def conversion_complete(
         self, message: discord.Message, file_path: str
     ) -> None:
+
+        #Load the converted file
         converted_file = discord.File(file_path)
 
+        # Edit the message with the converted file
         await message.edit(
-            content="Sånn, nå har je konvertert filen for deg sussebassen min <3",
+            content=COMPLETE_MESSAGE,
             attachments=[converted_file],
         )
 
-    async def send_loading_message(self, message: discord.Message) -> discord.Message:
+    async def init_conversion(self, message: discord.Message) -> discord.Message:
 
+        # Load the loading gif
         loading_gif = discord.File("./assets/loading.gif")
 
+        # Send the loading message
         sent_message = await message.channel.send(
-            "Je så at du lasta opp en slik .webm fil, så je driver konverterer den til en .mp4 fil for deg uwu <3",
+            content=LOADING_MESSAGE,
             file=loading_gif
         )
 
@@ -39,11 +46,11 @@ class ConverterBot(discord.Client):
         if message.attachments:
             for attachment in message.attachments:
                 if ".webm" in attachment.url:
-                    loading_message = await self.send_loading_message(message)
+                    loading_message = await self.init_conversion(message)
                     filename, parent_dir = convert_webm_to_mp4(
                         attachment.filename, attachment.url
                     )
-                    await self.edit_loading_message_and_send_file(
+                    await self.conversion_complete(
                         loading_message, filename
                     )
 

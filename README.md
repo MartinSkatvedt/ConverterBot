@@ -9,6 +9,18 @@ The bot looks for any message with a _.webm_ file and uses moviepy to convert it
 
 If you want to use this bot, you will need to create a bot on the discord developer portal and add it to your server.
 
-I included a `Dockerfile` so that you can easily run the bot in a container. Just remember to add you __DISCORD_TOKEN__ to the environment variables.
+I included a `Dockerfile` so that you can easily run the bot in a container. Or you can use the prebuilt image. There is also a `docker-compose.yml` file that you can use to run the bot with docker-compose, it also uses watchtower to automatically update the bot when a new image is available.
 
-You would probably also change the response messages from the bot to fit your needs.
+Remember to create a `.env` file if you are using docker-compose (see `.env.example` for reference).
+
+
+### Docker compose example
+
+1. First update the `.env` file with your bot token, and the different response messages. 
+2. You can then run the bot with the following command:
+```bash	
+docker-compose up -d
+```
+
+
+
