@@ -1,0 +1,23 @@
+version: "3"
+
+services:
+  converterbot:
+    image: ghcr.io/martinskatvedt/converterbot:latest
+    container_name: converterbot-container
+    env_file:
+      - .env
+
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - WATCHTOWER_POLL_INTERVAL=1800
+      - WATCHTOWER_REVIVE_STOPPED=true
+      - TZ=Europe/Oslo
+      - WATCHTOWER_CLEANUP=true
+
+    command: convertbot-container
+
+
