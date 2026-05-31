@@ -4,6 +4,7 @@ services:
   converterbot:
     image: ghcr.io/martinskatvedt/converterbot:latest
     container_name: converterbot-container
+    restart: unless-stopped
     env_file:
       - .env
 
@@ -18,6 +19,6 @@ services:
       - TZ=Europe/Oslo
       - WATCHTOWER_CLEANUP=true
 
-    command: convertbot-container
+    command: converterbot-container
 
 
